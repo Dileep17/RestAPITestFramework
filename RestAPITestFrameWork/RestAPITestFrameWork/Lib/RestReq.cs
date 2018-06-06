@@ -27,6 +27,11 @@ namespace RestAPITestFrameWork.Lib
             return this;
         }
 
+        public RestReq Param(string key, string value)
+        {
+            _request.AddParameter(key, value, ParameterType.UrlSegment);
+            return this;
+        }
         public RestReq AddHeader(string header, string value)
         {
             _request.AddHeader(header, value);

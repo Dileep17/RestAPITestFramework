@@ -1,5 +1,5 @@
 ﻿end_points:
     QA:
         Base_Url: https://reqres.in/
-        Single_user: api/users/2
+        Single_user: api/users/{id}
         List_user: api/users?page={page}

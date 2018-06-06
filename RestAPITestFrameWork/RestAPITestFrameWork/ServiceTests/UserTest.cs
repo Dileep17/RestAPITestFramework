@@ -15,7 +15,8 @@ namespace RestAPITestFrameWork.ServiceTests
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
             var client = new RestClient("https://reqres.in/");
-            var request = new RestRequest("api/users/2", Method.GET);
+            var request = new RestRequest("api/users/{id}", Method.GET);
+            request.AddParameter("id", 2, ParameterType.UrlSegment);
             IRestResponse response = client.Execute(request);
             Console.WriteLine(response.Content);
             UserData userData = JsonConvert.DeserializeObject<UserData>(response.Content);
@@ -33,7 +34,10 @@ namespace RestAPITestFrameWork.ServiceTests
         public void GetSingleUserTestWithRestReqLib()
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
-            IRestResponse response = new RestReq().EndPoint(YamlReader.GetValue("Single_user")).Get();
+            IRestResponse response = new RestReq()
+                .EndPoint(YamlReader.GetValue("Single_user"))
+                .Param("id","2")
+                .Get();
             UserData actualUserData = JsonConvert.DeserializeObject<UserData>(response.Content);
             Assert.IsTrue(expectedUserData.Equals(actualUserData));
             Assert.AreEqual(200, (int)response.StatusCode);
@@ -43,7 +47,7 @@ namespace RestAPITestFrameWork.ServiceTests
         public void GetSingleUserTestWithRestReqLibDeserialized()
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
-            UserData actualUserData = new RestReq().EndPoint(YamlReader.GetValue("Single_user")).Get<UserData>();
+            UserData actualUserData = new RestReq().EndPoint(YamlReader.GetValue("Single_user")).Param("id", "2").Get<UserData>();
             Assert.IsTrue(expectedUserData.Equals(actualUserData));
         }
     }
