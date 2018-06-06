@@ -23,11 +23,17 @@ namespace RestAPITestFrameWork.ServiceTests
             Console.WriteLine("heman");
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            YamlReader.load("QA");
+        }
+
         [Test]
         public void GetSingleUserTestWithRestReqLib()
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
-            IRestResponse response = new RestReq().EndPoint("api/users/2").Get();
+            IRestResponse response = new RestReq().EndPoint(YamlReader.GetValue("Single_user")).Get();
             UserData actualUserData = JsonConvert.DeserializeObject<UserData>(response.Content);
             Assert.IsTrue(expectedUserData.Equals(actualUserData));
             Assert.AreEqual(200, (int)response.StatusCode);
@@ -37,9 +43,8 @@ namespace RestAPITestFrameWork.ServiceTests
         public void GetSingleUserTestWithRestReqLibDeserialized()
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
-            UserData actualUserData = new RestReq().EndPoint("api/users/2").Get<UserData>();
+            UserData actualUserData = new RestReq().EndPoint(YamlReader.GetValue("Single_user")).Get<UserData>();
             Assert.IsTrue(expectedUserData.Equals(actualUserData));
         }
-
     }
 }

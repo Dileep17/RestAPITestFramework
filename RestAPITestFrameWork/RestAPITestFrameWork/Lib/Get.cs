@@ -18,7 +18,7 @@ namespace RestAPITestFrameWork.Lib
 
         public RestReq()
         {
-            _client = new RestClient("https://reqres.in/");
+            _client = new RestClient(YamlReader.GetValue(("Base_Url")));
         }
 
         public RestReq EndPoint(string endpoint)
