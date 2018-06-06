@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using RestAPITestFrameWork.Lib;
 using RestAPITestFrameWork.Models;
 using RestSharp;
 
@@ -10,7 +11,7 @@ namespace RestAPITestFrameWork.ServiceTests
     public class UserTest
     {
         [Test]
-        public void SingleUserTest()
+        public void GetSingleUserTest()
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
             var client = new RestClient("https://reqres.in/");
@@ -21,5 +22,24 @@ namespace RestAPITestFrameWork.ServiceTests
             Assert.IsTrue(userData.Equals(expectedUserData), "verifying exprcted user is same as actual user returned by API");
             Console.WriteLine("heman");
         }
+
+        [Test]
+        public void GetSingleUserTestWithRestReqLib()
+        {
+            UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
+            IRestResponse response = new RestReq().EndPoint("api/users/2").Get();
+            UserData actualUserData = JsonConvert.DeserializeObject<UserData>(response.Content);
+            Assert.IsTrue(expectedUserData.Equals(actualUserData));
+            Assert.AreEqual(200, (int)response.StatusCode);
+        }
+
+        [Test]
+        public void GetSingleUserTestWithRestReqLibDeserialized()
+        {
+            UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
+            UserData actualUserData = new RestReq().EndPoint("api/users/2").Get<UserData>();
+            Assert.IsTrue(expectedUserData.Equals(actualUserData));
+        }
+
     }
 }
