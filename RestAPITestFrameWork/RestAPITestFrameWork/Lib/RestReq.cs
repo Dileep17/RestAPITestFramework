@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RestAPITestFrameWork.Models;
+﻿using Newtonsoft.Json;
 using RestSharp;
 
 namespace RestAPITestFrameWork.Lib
 {
     class RestReq
     {
-        private string _baseUrl;
-        private string _endPoint;
-        private RestClient _client;
+        private readonly RestClient _client;
         private RestRequest _request;
 
         public RestReq()
@@ -50,19 +42,5 @@ namespace RestAPITestFrameWork.Lib
             var response = _client.Execute(_request);
             return response;
         }
-
-
     }
 }
-
-
-
-
-/*
- * new Get().Endpoint().addHeader().addJsonBody().Execute()
- * 
- * 
- * new Get().Endpoint().addHeader().addJsonBody().Execute<Model>()
- * 
- * 
- */

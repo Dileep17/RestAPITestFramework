@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
 namespace RestAPITestFrameWork.Lib
 {
-    class EndPoints
+    internal class EndPoints
     {
         public Dictionary<string, Dictionary<string, string>> end_points { get; set; }
     }
@@ -17,10 +13,10 @@ namespace RestAPITestFrameWork.Lib
     {
         private static EndPoints _endPoints;
         private static string _environment;
-        public static void load(string environment)
+        public static void Load(string environment)
         {
             _environment = environment;
-            string path = System.AppDomain.CurrentDomain.BaseDirectory + "RestConfig.yml";
+            var path = System.AppDomain.CurrentDomain.BaseDirectory + "RestConfig.yml";
 
             using (var reader = new StreamReader(path))
             {

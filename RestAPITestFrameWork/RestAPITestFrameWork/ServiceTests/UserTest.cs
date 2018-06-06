@@ -11,23 +11,21 @@ namespace RestAPITestFrameWork.ServiceTests
     public class UserTest
     {
         [Test]
-        public void GetSingleUserTest()
+        public void GetSingleUserTestWithRestSharp()
         {
             UserData expectedUserData = new UserData(2, "Janet", "Weaver", new Uri("https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"));
             var client = new RestClient("https://reqres.in/");
             var request = new RestRequest("api/users/{id}", Method.GET);
             request.AddParameter("id", 2, ParameterType.UrlSegment);
             IRestResponse response = client.Execute(request);
-            Console.WriteLine(response.Content);
             UserData userData = JsonConvert.DeserializeObject<UserData>(response.Content);
             Assert.IsTrue(userData.Equals(expectedUserData), "verifying exprcted user is same as actual user returned by API");
-            Console.WriteLine("heman");
         }
 
         [SetUp]
         public void SetUp()
         {
-            YamlReader.load("QA");
+            YamlReader.Load("QA");
         }
 
         [Test]
