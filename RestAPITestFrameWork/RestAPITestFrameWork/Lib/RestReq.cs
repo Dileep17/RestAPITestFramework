@@ -8,14 +8,33 @@ namespace RestAPITestFrameWork.Lib
         private readonly RestClient _client;
         private RestRequest _request;
 
-        public RestReq()
+        public RestReq(string url = null)
         {
-            _client = new RestClient(YamlReader.GetValue(("Base_Url")));
+            if (url == null)
+                url = YamlReader.GetValue(("Base_url"));
+            _client = new RestClient(url);
         }
 
-        public RestReq EndPoint(string endpoint)
+        public RestReq Get(string endpoint)
         {
-            _request = new RestRequest(endpoint);
+            _request = new RestRequest(endpoint, Method.GET);
+            return this;
+        }
+        public RestReq Post(string endpoint)
+        {
+            _request = new RestRequest(endpoint, Method.POST);
+            return this;
+        }
+
+        public RestReq Delete(string endpoint)
+        {
+            _request = new RestRequest(endpoint, Method.DELETE);
+            return this;
+        }
+
+        public RestReq AddJsonBody(string jsonData)
+        {
+            _request.AddParameter("application/json", jsonData, ParameterType.RequestBody);
             return this;
         }
 
@@ -30,17 +49,21 @@ namespace RestAPITestFrameWork.Lib
             return this;
         }
 
-        public T Get<T>()
+        public T Execute<T>()
         {
+
             var response = _client.Execute(_request);
             T t = JsonConvert.DeserializeObject<T>(response.Content);
             return t;
         }
 
-        public IRestResponse Get()
+        public IRestResponse Execute()
         {
             var response = _client.Execute(_request);
             return response;
         }
+
+
+
     }
 }

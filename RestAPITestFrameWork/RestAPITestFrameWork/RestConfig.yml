@@ -1,5 +1,6 @@
 ﻿end_points:
     QA:
-        Base_Url: https://reqres.in/
+        Base_url: https://reqres.in/
+        Mountebank: http://localhost:2525
         Single_user: api/users/{id}
         List_user: api/users?page={page}
